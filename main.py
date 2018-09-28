@@ -14,7 +14,9 @@ clock = pygame.time.Clock()
 
 # setup game components
 #start spaceship on bottom in middle of window
-spaceship = spaceship.Spaceship(SCREEN_HEIGHT, SCREEN_WIDTH / 2)
+spaceship = spaceship.Spaceship(0, 0)
+spaceship.x = int(SCREEN_WIDTH / 2)
+spaceship.y = SCREEN_HEIGHT - spaceship.radius
 # set game_over boolean and start loop
 game_over = False
 while not game_over:
@@ -22,11 +24,15 @@ while not game_over:
         if event.type == pygame.QUIT:
             game_over = True
 
+    spaceship.update(SCREEN_WIDTH, SCREEN_HEIGHT)
 
     # Draw background
     screen.fill(blue_color)
 
     # Game display
+    spaceship.render(screen)
+
+    # update canvas in window
     pygame.display.update()
     clock.tick(60)
     
