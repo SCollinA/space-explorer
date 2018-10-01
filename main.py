@@ -19,10 +19,6 @@ screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('My Game')
 clock = pygame.time.Clock()
 
-# in the beginning there was gravity
-# increasing y values are towards bottom of window
-GRAVITY = 1
-
 # setup game components
 #start spaceship on bottom in middle of window
 my_spaceship = spaceship.Spaceship(0, 0)
@@ -62,18 +58,18 @@ while not game_over:
                 pressed_right = False
         if event.type == pygame.QUIT:
             game_over = True
+    # keep increasing speed as long as key is held
     if key_pressed:
         if pressed_up:
             my_spaceship.speed_y -= 2
         if pressed_down:
-            my_spaceship.speed_y += 2
+            my_spaceship.speed_y += 1
         if pressed_right:
-            my_spaceship.speed_x += 2
+            my_spaceship.speed_x += 1
         if pressed_left:
-            my_spaceship.speed_x -= 2
+            my_spaceship.speed_x -= 1
 
-    # add effects of gravity to spaceship
-    my_spaceship.speed_y += GRAVITY
+
     my_spaceship.update(SCREEN_WIDTH, SCREEN_HEIGHT)
 
     # Draw background
