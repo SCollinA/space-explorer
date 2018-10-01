@@ -22,8 +22,6 @@ class Spaceship(Block):
         self.radius = 50
 
     def update(self, width, height):
-        self.x += self.speed_x
-        self.y += self.speed_y
         # bounce off of bounds of window
         if self.x + self.radius > width:
             self.speed_x = -self.speed_x
@@ -33,6 +31,8 @@ class Spaceship(Block):
             self.speed_x = -self.speed_x
         if self.y - self.radius < 0:
             self.speed_y = -self.speed_y
+        self.x += self.speed_x
+        self.y += self.speed_y
 
 
     def render(self, screen):
