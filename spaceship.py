@@ -2,7 +2,7 @@ import pygame
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, pos):
-        pygame.sprite.Sprite.__init__(self)
+        pygame.sprite.Sprite().__init__(self)
         self.image = pygame.Surface([20, 20])
         self.image.fill((255, 0, 0))
         self.rect = self.image.get_rect()
@@ -15,8 +15,9 @@ class Spaceship(Block):
         self.x = x
         self.y = y
         # set rate of change of coordinates (i.e. speed)
-        self.speed_x = 5
-        self.speed_y = 5
+        self.speed_x = 0
+        # set y speed equal to gravity
+        self.speed_y = 0
         # set size of spaceship
         self.radius = 50
 
