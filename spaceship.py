@@ -10,7 +10,7 @@ class Block(pygame.sprite.Sprite):
         self.rect.center = pos
 
 class Spaceship(Block):
-    GRAVITY = 1
+    GRAVITY = .5
     BOUNCE_LOSS = 1.5
     ROLLING_FRICTION = 1.0625
     
@@ -23,7 +23,7 @@ class Spaceship(Block):
         # set y speed equal to gravity
         self.speed_y = 0
         # set size of spaceship
-        self.radius = 50
+        self.radius = 10
 
     def update(self, width, height):
         self.speed_y += Spaceship.GRAVITY
@@ -38,14 +38,15 @@ class Spaceship(Block):
         # if too high or low
         if self.y - self.radius < 0:
             self.y = self.radius
-            self.speed_y = -self.speed_y
+            self.speed_y = 0
         if self.y + self.radius > height:
             self.y = height - self.radius
             self.speed_x = self.speed_x / Spaceship.ROLLING_FRICTION
             self.speed_y = -self.speed_y / Spaceship.BOUNCE_LOSS
             if self.speed_y <= 4 and self.speed_y >= -4:
                 self.speed_y = 0
-            print('speed %d' % self.speed_y)
+        print('speed %d' % self.speed_y)
+        print('speed %d' % self.speed_x)
         self.x += self.speed_x
         self.y += self.speed_y
 

@@ -37,7 +37,6 @@ key_pressed, pressed_up, pressed_down, pressed_right, pressed_left = False, Fals
 while not game_over:
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
-            key_pressed = True
             if event.key == KEY_UP:
                 pressed_up = True
             if event.key == KEY_DOWN:
@@ -47,7 +46,6 @@ while not game_over:
             if event.key == KEY_RIGHT:
                 pressed_right = True
         if event.type == pygame.KEYUP:
-            key_pressed = False
             if event.key == KEY_UP:
                 pressed_up = False
             if event.key == KEY_DOWN:
@@ -59,15 +57,14 @@ while not game_over:
         if event.type == pygame.QUIT:
             game_over = True
     # keep increasing speed as long as key is held
-    if key_pressed:
-        if pressed_up:
-            my_spaceship.speed_y -= 2
-        if pressed_down:
-            my_spaceship.speed_y += 1
-        if pressed_right:
-            my_spaceship.speed_x += 1
-        if pressed_left:
-            my_spaceship.speed_x -= 1
+    if pressed_up:
+        my_spaceship.speed_y -= 1
+    if pressed_down:
+        my_spaceship.speed_y += .5
+    if pressed_right:
+        my_spaceship.speed_x += .5
+    if pressed_left:
+        my_spaceship.speed_x -= .5
 
 
     my_spaceship.update(SCREEN_WIDTH, SCREEN_HEIGHT)
