@@ -3,9 +3,8 @@ import spaceship
 
 print(pygame.__path__)
 # screen dimensions
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 800
-blue_color = (97, 159, 182)
+SCREEN_WIDTH = 600
+SCREEN_HEIGHT = 600
 
 # controls
 KEY_UP = 273
@@ -18,14 +17,20 @@ pygame.init()
 screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 pygame.display.set_caption('My Game')
 clock = pygame.time.Clock()
+black_color = (0, 0, 0)
+blue_color = (97, 159, 182)
+green_color = (0, 255, 25)
+pygame.mixer.init()
+sound = pygame.mixer.Sound('sounds/win.wav')
 
 # setup game components
 #start spaceship on bottom in middle of window
+hero_image = pygame.image.load('images/hero.png').convert_alpha()
 my_spaceship = spaceship.Spaceship(0, 0)
 my_spaceship.x = int(SCREEN_WIDTH / 2)
-my_spaceship.y = SCREEN_HEIGHT - my_spaceship.radius
+my_spaceship.y = SCREEN_HEIGHT * .9
 
-ball = spaceship.Spaceship(int(SCREEN_WIDTH / 2), int(SCREEN_HEIGHT / 2))
+# ball = spaceship.Spaceship(int(SCREEN_WIDTH / 2), int(SCREEN_HEIGHT / 2))
 # ball_group = pygame.sprite.Group()
 # ball_group.add(ball)
 
@@ -60,20 +65,24 @@ while not game_over:
     if pressed_up:
         my_spaceship.speed_y -= 1
     if pressed_down:
-        my_spaceship.speed_y += .5
+        my_spaceship.speed_y += 1
     if pressed_right:
-        my_spaceship.speed_x += .5
+        my_spaceship.speed_x += 1
     if pressed_left:
-        my_spaceship.speed_x -= .5
+        my_spaceship.speed_x -= 1
 
 
-    my_spaceship.update(SCREEN_WIDTH, SCREEN_HEIGHT)
+    my_spaceship.update(SCREEN_WIDTH, SCREEN_HEIGHT * .9)
 
     # Draw background
     screen.fill(blue_color)
+    ground = pygame.Rect(0, SCREEN_HEIGHT * .9, SCREEN_WIDTH, SCREEN_HEIGHT * .1)
+    pygame.draw.rect(screen, green_color, ground)
 
     # Game display
-    my_spaceship.render(screen)
+    # my_spaceship.render(screen)
+    screen.blit(hero_image, (my_spaceship.x, my_spaceship.y))
+
 
     # update canvas in window
     pygame.display.update()
