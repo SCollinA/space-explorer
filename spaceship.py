@@ -24,8 +24,10 @@ class Spaceship(Block):
         self.speed_y = 0
         # set size of spaceship
         self.radius = 10
+        self.orientation = 0
 
     def update(self, width, height):
+        # self.orientation = 0
         self.speed_y += Spaceship.GRAVITY
         # bounce off of bounds of window
         # if too far left or right
@@ -45,11 +47,19 @@ class Spaceship(Block):
             self.speed_y = -self.speed_y / Spaceship.BOUNCE_LOSS
             if self.speed_y <= 4 and self.speed_y >= -4:
                 self.speed_y = 0
-        print('speed %d' % self.speed_y)
-        print('speed %d' % self.speed_x)
         self.x += self.speed_x
         self.y += self.speed_y
 
+    def rotate(self, right):
+        if right: #clockwise
+            self.orientation += 1
+        else: # left, counterclockwise
+            self.orientation -= 1
+        if self.orientation > 360:
+            self.orientation -= 360
+        elif self.orientation < 0:
+            self.orientation += 360
+        print("orientation %f" % self.orientation)
 
     def render(self, screen):
         pygame.draw.circle(screen, (255, 0, 0), (int(self.x), int(self.y)), self.radius)

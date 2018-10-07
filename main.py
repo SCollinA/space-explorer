@@ -11,6 +11,8 @@ KEY_UP = 273
 KEY_DOWN = 274
 KEY_LEFT = 276
 KEY_RIGHT = 275
+KEY_ROTATE_RIGHT = pygame.K_d
+KEY_ROTATE_LEFT = pygame.K_a
 
 # setup pygame window and timer
 pygame.init()
@@ -25,7 +27,7 @@ sound = pygame.mixer.Sound('sounds/win.wav')
 
 # setup game components
 #start spaceship on bottom in middle of window
-hero_image = pygame.image.load('images/hero.png').convert_alpha()
+hero_image_base = pygame.image.load('images/hero.png').convert_alpha()
 my_spaceship = spaceship.Spaceship(0, 0)
 my_spaceship.x = int(SCREEN_WIDTH / 2)
 my_spaceship.y = SCREEN_HEIGHT * .9
@@ -38,7 +40,7 @@ my_spaceship.y = SCREEN_HEIGHT * .9
 # player_group.add(my_spaceship)
 # set game_over boolean and start loop
 game_over = False
-key_pressed, pressed_up, pressed_down, pressed_right, pressed_left = False, False, False, False, False
+key_pressed, pressed_up, pressed_down, pressed_right, pressed_left, pressed_rotate_left, pressed_rotate_right = False, False, False, False, False, False, False
 while not game_over:
     for event in pygame.event.get():
         if event.type == pygame.KEYDOWN:
@@ -50,6 +52,10 @@ while not game_over:
                 pressed_left = True
             if event.key == KEY_RIGHT:
                 pressed_right = True
+            if event.key == KEY_ROTATE_RIGHT:
+                pressed_rotate_right = True
+            if event.key == KEY_ROTATE_LEFT:
+                pressed_rotate_left = True
         if event.type == pygame.KEYUP:
             if event.key == KEY_UP:
                 pressed_up = False
@@ -59,6 +65,10 @@ while not game_over:
                 pressed_left = False
             if event.key == KEY_RIGHT:
                 pressed_right = False
+            if event.key == KEY_ROTATE_RIGHT:
+                pressed_rotate_right = False
+            if event.key == KEY_ROTATE_LEFT:
+                pressed_rotate_left = False
         if event.type == pygame.QUIT:
             game_over = True
     # keep increasing speed as long as key is held
@@ -70,18 +80,23 @@ while not game_over:
         my_spaceship.speed_x += 1
     if pressed_left:
         my_spaceship.speed_x -= 1
+    if pressed_rotate_right:
+        my_spaceship.rotate(True)
+    if pressed_rotate_left:
+        my_spaceship.rotate(False)
 
 
-    my_spaceship.update(SCREEN_WIDTH, SCREEN_HEIGHT * .9)
 
     # Draw background
     screen.fill(blue_color)
     ground = pygame.Rect(0, SCREEN_HEIGHT * .9, SCREEN_WIDTH, SCREEN_HEIGHT * .1)
     pygame.draw.rect(screen, green_color, ground)
-
+    # Draw spaceship
+    hero_image_active = pygame.transform.rotate(hero_image_base, (-1 * my_spaceship.orientation))
+    my_spaceship.update(SCREEN_WIDTH, SCREEN_HEIGHT * .9)
     # Game display
-    # my_spaceship.render(screen)
-    screen.blit(hero_image, (my_spaceship.x, my_spaceship.y))
+    my_spaceship.render(screen)
+    screen.blit(hero_image_active, (my_spaceship.x, my_spaceship.y))
 
 
     # update canvas in window
