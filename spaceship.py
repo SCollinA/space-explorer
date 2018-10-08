@@ -1,4 +1,5 @@
 import pygame
+from math import sin, pi
 
 class Block(pygame.sprite.Sprite):
     def __init__(self, pos):
@@ -52,14 +53,48 @@ class Spaceship(Block):
 
     def rotate(self, right):
         if right: #clockwise
-            self.orientation += 1
-        else: # left, counterclockwise
             self.orientation -= 1
-        if self.orientation > 360:
-            self.orientation -= 360
-        elif self.orientation < 0:
+        else: # left, counterclockwise
+            self.orientation += 1
+        if self.orientation < -360:
             self.orientation += 360
+        elif self.orientation > 0:
+            self.orientation -= 360
         print("orientation %f" % self.orientation)
+
+    def move(self, direction):
+        orientation = abs(self.orientation) - 90 + direction
+        if orientation % 90 == 0:
+            orientation += 1
+        if orientation > 360:
+            orientation -= 360
+        elif orientation < 0:
+            orientation += 360
+        print("orientation %f" % orientation)
+        # convert to radians
+        angle_b = 90
+        angle_c = (180 - angle_b - orientation)
+        orientation_radians = (orientation * pi) / 180
+        angle_b_radians = (angle_b * pi) / 180
+        angle_c_radians = (angle_c * pi) / 180
+        right_speed = sin(angle_c_radians) / sin(angle_b_radians)
+        up_speed = sin(orientation_radians) / sin(angle_b_radians)
+        print("up speed %f" % up_speed)
+        print("right speed %f" % right_speed)
+        self.speed_y += up_speed
+        self.speed_x -= right_speed
+
+    def move_forward(self):
+        self.move(0)
+
+    def move_back(self):
+        self.move(180)
+
+    def move_right(self):
+        self.move(270)
+
+    def move_left(self):
+        self.move(90)
 
     def render(self, screen):
         pygame.draw.circle(screen, (255, 0, 0), (int(self.x), int(self.y)), self.radius)

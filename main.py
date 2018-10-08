@@ -73,13 +73,13 @@ while not game_over:
             game_over = True
     # keep increasing speed as long as key is held
     if pressed_up:
-        my_spaceship.speed_y -= 1
+        my_spaceship.move_forward()
     if pressed_down:
-        my_spaceship.speed_y += 1
+        my_spaceship.move_back()
     if pressed_right:
-        my_spaceship.speed_x += 1
+        my_spaceship.move_right()
     if pressed_left:
-        my_spaceship.speed_x -= 1
+        my_spaceship.move_left()
     if pressed_rotate_right:
         my_spaceship.rotate(True)
     if pressed_rotate_left:
@@ -92,7 +92,7 @@ while not game_over:
     ground = pygame.Rect(0, SCREEN_HEIGHT * .9, SCREEN_WIDTH, SCREEN_HEIGHT * .1)
     pygame.draw.rect(screen, green_color, ground)
     # Draw spaceship
-    hero_image_active = pygame.transform.rotate(hero_image_base, (-1 * my_spaceship.orientation))
+    hero_image_active = pygame.transform.rotate(hero_image_base, (my_spaceship.orientation))
     my_spaceship.update(SCREEN_WIDTH, SCREEN_HEIGHT * .9)
     # Game display
     my_spaceship.render(screen)
