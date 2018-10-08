@@ -11,7 +11,7 @@ class Block(pygame.sprite.Sprite):
         self.rect.center = pos
 
 class Spaceship(Block):
-    GRAVITY = .5
+    GRAVITY = .25
     BOUNCE_LOSS = 1.5
     ROLLING_FRICTION = 1.0625
     
@@ -77,12 +77,13 @@ class Spaceship(Block):
         orientation_radians = (orientation * pi) / 180
         angle_b_radians = (angle_b * pi) / 180
         angle_c_radians = (angle_c * pi) / 180
+        # calculate +x and -y speed
         right_speed = sin(angle_c_radians) / sin(angle_b_radians)
         up_speed = sin(orientation_radians) / sin(angle_b_radians)
         print("up speed %f" % up_speed)
         print("right speed %f" % right_speed)
-        self.speed_y += up_speed
-        self.speed_x -= right_speed
+        self.speed_y += up_speed / 2
+        self.speed_x += right_speed / 2
 
     def move_forward(self):
         self.move(0)
@@ -91,10 +92,10 @@ class Spaceship(Block):
         self.move(180)
 
     def move_right(self):
-        self.move(270)
+        self.move(90)
 
     def move_left(self):
-        self.move(90)
+        self.move(270)
 
     def render(self, screen):
         pygame.draw.circle(screen, (255, 0, 0), (int(self.x), int(self.y)), self.radius)
