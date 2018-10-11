@@ -12,7 +12,7 @@ class Block(pygame.sprite.Sprite):
 
 class Spaceship(Block):
     BOUNCE_LOSS = 1.5
-    AIR_FRICTION = 1.0625
+    AIR_FRICTION = 1.125
     
     def __init__(self, x, y):
         # set coordinates
@@ -28,7 +28,7 @@ class Spaceship(Block):
         self.gravity = 1
 
     def update(self, width, height):
-        self.gravity = pow((abs(self.y) / height), 1/8)
+        self.gravity = abs(self.y) / height
         self.speed_y += self.gravity
         # bounce off of bounds of window
         # if too far left or right
@@ -39,9 +39,9 @@ class Spaceship(Block):
             self.x = self.radius
             self.speed_x = -self.speed_x / Spaceship.BOUNCE_LOSS
         # if too high or low
-        if self.y - self.radius < 0:
-            self.y = self.radius
-            self.speed_y = 0
+        if self.y - self.radius < height * .1:
+            self.y = self.radius + (height * .1)
+            # self.speed_y = 0
         if self.y + self.radius > height:
             self.y = height - self.radius
             self.speed_y = -self.speed_y / Spaceship.BOUNCE_LOSS
@@ -83,8 +83,8 @@ class Spaceship(Block):
         up_speed = sin(orientation_radians) / sin(angle_b_radians)
         print("up speed %f" % up_speed)
         print("right speed %f" % right_speed)
-        self.speed_y += up_speed / self.gravity
-        self.speed_x += right_speed / self.gravity
+        self.speed_y += up_speed
+        self.speed_x += right_speed
 
     def move_forward(self):
         self.move(0)
