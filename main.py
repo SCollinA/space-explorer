@@ -1,5 +1,6 @@
 import pygame
 import spaceship
+import camera
 
 print(pygame.__path__)
 # screen dimensions
@@ -22,6 +23,7 @@ clock = pygame.time.Clock()
 black_color = (0, 0, 0)
 blue_color = (97, 159, 182)
 green_color = (0, 255, 25)
+camera = camera.Camera(None, SCREEN_WIDTH, SCREEN_HEIGHT)
 pygame.mixer.init()
 sound = pygame.mixer.Sound('sounds/win.wav')
 
@@ -94,6 +96,7 @@ while not game_over:
     # Draw spaceship
     hero_image_active = pygame.transform.rotate(hero_image_base, (my_spaceship.orientation))
     my_spaceship.update(SCREEN_WIDTH, SCREEN_HEIGHT * .9)
+    camera.update(my_spaceship.rect)
     # Game display
     my_spaceship.render(screen)
     screen.blit(hero_image_active, (my_spaceship.x, my_spaceship.y))

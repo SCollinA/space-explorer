@@ -15,6 +15,7 @@ class Spaceship(Block):
     AIR_FRICTION = 1.125
     
     def __init__(self, x, y):
+        super().__init__((x, y))
         # set coordinates
         self.x = x
         self.y = y
